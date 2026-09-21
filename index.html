@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#fff8f6" />
+    <meta name="description" content="Маленькое приглашение на особенный вечер" />
+    <title>Для тебя ♡</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #492e35;
+        --muted: #8d7077;
+        --rose: #e96e8d;
+        --rose-dark: #d85274;
+        --cream: #fffaf7;
+        --paper: rgba(255, 255, 255, 0.72);
+        --shadow: 0 24px 70px rgba(117, 65, 80, 0.18);
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body { min-height: 100%; }
+
+      body {
+        margin: 0;
+        min-height: 100svh;
+        overflow: hidden;
+        display: grid;
+        place-items: center;
+        padding: max(20px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right))
+          max(20px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left));
+        color: var(--ink);
+        font-family: Inter, ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at 12% 12%, rgba(255, 211, 222, 0.9), transparent 30%),
+          radial-gradient(circle at 88% 80%, rgba(255, 222, 196, 0.85), transparent 34%),
+          linear-gradient(145deg, #fff9f6 0%, #ffeef1 48%, #fff7ed 100%);
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.42;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
+      }
+
+      .orb {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(1px);
+        opacity: 0.5;
+        animation: float 8s ease-in-out infinite;
+        pointer-events: none;
+      }
+
+      .orb.one { width: 130px; height: 130px; top: -35px; right: -30px; background: #ffd0dc; }
+      .orb.two { width: 90px; height: 90px; bottom: 8%; left: -30px; background: #ffd7bb; animation-delay: -3s; }
+
+      .card {
+        position: relative;
+        width: min(440px, calc(100vw - 36px));
+        min-height: min(680px, calc(100svh - 40px));
+        padding: clamp(28px, 7vw, 44px) clamp(23px, 7vw, 40px) 30px;
+        overflow: hidden;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.86);
+        border-radius: 34px;
+        background: var(--paper);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        animation: appear 0.8s cubic-bezier(.2,.8,.2,1) both;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 24px;
+        padding: 8px 13px;
+        border: 1px solid rgba(233, 110, 141, 0.2);
+        border-radius: 99px;
+        color: var(--rose-dark);
+        background: rgba(255, 255, 255, 0.62);
+        font-size: 12px;
+        font-weight: 750;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+
+      .heart-mark {
+        width: 112px;
+        height: 102px;
+        margin: 0 auto 14px;
+        display: grid;
+        place-items: center;
+        filter: drop-shadow(0 14px 18px rgba(221, 83, 117, 0.2));
+        animation: heartbeat 2.2s ease-in-out infinite;
+      }
+
+      .heart-mark svg { width: 100%; height: 100%; overflow: visible; }
+
+      h1 {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(38px, 10vw, 54px);
+        font-weight: 500;
+        line-height: 0.98;
+        letter-spacing: -0.035em;
+      }
+
+      .question {
+        max-width: 310px;
+        margin: 18px auto 22px;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.55;
+      }
+
+      .date-pill {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 14px;
+        margin: 0 auto 28px;
+        padding: 15px 18px;
+        max-width: 320px;
+        border-radius: 20px;
+        color: #6f4d56;
+        background: rgba(255, 255, 255, 0.66);
+        box-shadow: inset 0 0 0 1px rgba(124, 70, 84, 0.07);
+      }
+
+      .date-pill strong, .date-pill span { display: block; }
+      .date-pill strong { color: var(--ink); font-size: 15px; }
+      .date-pill span { margin-top: 2px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+      .date-pill .divider { width: 1px; height: 31px; background: rgba(111, 77, 86, 0.17); }
+
+      .actions {
+        position: relative;
+        min-height: 118px;
+      }
+
+      button {
+        border: 0;
+        border-radius: 17px;
+        font: inherit;
+        font-size: 15px;
+        font-weight: 750;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+      }
+
+      #yesBtn {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        min-height: 58px;
+        padding: 16px 24px;
+        color: #fff;
+        background: linear-gradient(135deg, #ee7896, #db5578);
+        box-shadow: 0 13px 28px rgba(218, 79, 114, 0.28);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      #yesBtn:hover { transform: translateY(-2px); box-shadow: 0 17px 34px rgba(218, 79, 114, 0.34); }
+      #yesBtn:active { transform: translateY(1px) scale(.99); }
+
+      #noBtn {
+        position: absolute;
+        z-index: 4;
+        left: 50%;
+        top: 74px;
+        transform: translateX(-50%);
+        min-width: 108px;
+        min-height: 42px;
+        padding: 10px 18px;
+        color: #94737b;
+        background: rgba(255, 255, 255, 0.68);
+        box-shadow: inset 0 0 0 1px rgba(111, 77, 86, 0.1);
+        transition: left .23s cubic-bezier(.2,.8,.2,1), top .23s cubic-bezier(.2,.8,.2,1), transform .18s ease;
+      }
+
+      .hint { margin: 11px 0 0; color: #ae9299; font-size: 11px; }
+
+      .success {
+        position: absolute;
+        z-index: 10;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        padding: 32px;
+        opacity: 0;
+        visibility: hidden;
+        background: rgba(255, 249, 248, .93);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        transition: opacity .45s ease, visibility .45s ease;
+      }
+
+      .success.show { opacity: 1; visibility: visible; }
+      .success-content { animation: none; }
+      .success.show .success-content { animation: pop .7s cubic-bezier(.18,.89,.32,1.28) both; }
+      .success .emoji { display: block; margin-bottom: 18px; font-size: 70px; }
+      .success h2 { margin: 0; font: 500 clamp(37px, 10vw, 50px)/1 Georgia, serif; letter-spacing: -.03em; }
+      .success p { margin: 16px auto 0; max-width: 280px; color: var(--muted); line-height: 1.55; }
+
+      .confetti {
+        position: fixed;
+        z-index: 20;
+        top: -18px;
+        width: 10px;
+        height: 16px;
+        border-radius: 3px;
+        pointer-events: none;
+        animation: fall var(--fall-time) linear forwards;
+      }
+
+      @keyframes appear { from { opacity: 0; transform: translateY(18px) scale(.98); } }
+      @keyframes heartbeat { 0%, 100% { transform: scale(1); } 12% { transform: scale(1.07); } 24% { transform: scale(1); } }
+      @keyframes float { 50% { transform: translateY(18px) translateX(-8px); } }
+      @keyframes pop { from { opacity: 0; transform: scale(.75); } }
+      @keyframes fall { to { transform: translate3d(var(--drift), 110vh, 0) rotate(720deg); } }
+
+      @media (max-height: 710px) {
+        .card { min-height: calc(100svh - 28px); padding-top: 23px; }
+        .eyebrow { margin-bottom: 13px; }
+        .heart-mark { width: 82px; height: 74px; margin-bottom: 8px; }
+        .question { margin: 12px auto 15px; }
+        .date-pill { margin-bottom: 18px; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+        #noBtn { transition: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+
+    <main class="card" id="card">
+      <p class="eyebrow">только для тебя <span aria-hidden="true">♡</span></p>
+
+      <div class="heart-mark" aria-hidden="true">
+        <svg viewBox="0 0 120 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M60 100S13 73 13 37C13 17 37 9 50 25L60 38L70 25C83 9 107 17 107 37C107 73 60 100 60 100Z" fill="url(#heart)"/>
+          <path d="M28 31C33 21 44 21 49 29" stroke="white" stroke-width="5" stroke-linecap="round" opacity=".62"/>
+          <defs><linearGradient id="heart" x1="21" y1="14" x2="92" y2="96" gradientUnits="userSpaceOnUse"><stop stop-color="#F58AA5"/><stop offset="1" stop-color="#DD5578"/></linearGradient></defs>
+        </svg>
+      </div>
+
+      <h1>Пойдёшь со мной<br />на свидание?</h1>
+      <p class="question">Хочу провести этот вечер с тобой. Обещаю тёплую атмосферу, улыбки и немного волшебства ✨</p>
+
+      <div class="date-pill" aria-label="23 сентября 2026 года в 21:00">
+        <div><strong>23 сентября</strong><span>среда</span></div>
+        <div class="divider" aria-hidden="true"></div>
+        <div><strong>21:00</strong><span>наш вечер</span></div>
+      </div>
+
+      <div class="actions" id="actions">
+        <button id="yesBtn" type="button">Да, с удовольствием 💗</button>
+        <button id="noBtn" type="button" aria-label="Нет">Нет</button>
+      </div>
+      <p class="hint">Кажется, здесь есть только один правильный ответ :)</p>
+
+      <section class="success" id="success" aria-live="polite" aria-hidden="true">
+        <div class="success-content">
+          <span class="emoji" aria-hidden="true">🥰</span>
+          <h2>Это будет<br />особенный вечер!</h2>
+          <p>Тогда договорились: 23 сентября в 21:00. Уже жду нашей встречи 💞</p>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const noButton = document.querySelector('#noBtn');
+      const yesButton = document.querySelector('#yesBtn');
+      const actions = document.querySelector('#actions');
+      const success = document.querySelector('#success');
+      let escapes = 0;
+
+      function moveNoButton() {
+        const area = actions.getBoundingClientRect();
+        const button = noButton.getBoundingClientRect();
+        const padding = 2;
+        const maxX = Math.max(padding, area.width - button.width - padding);
+        const maxY = Math.max(70, area.height - button.height + 28);
+        const x = padding + Math.random() * (maxX - padding);
+        const y = 68 + Math.random() * (maxY - 68);
+
+        noButton.style.left = `${x}px`;
+        noButton.style.top = `${y}px`;
+        noButton.style.transform = `rotate(${(Math.random() * 10 - 5).toFixed(1)}deg)`;
+        noButton.textContent = ['Нет', 'Точно нет?', 'Подумай ещё', 'Не-а 😌'][Math.min(escapes, 3)];
+        escapes += 1;
+      }
+
+      noButton.addEventListener('pointerenter', (event) => {
+        if (event.pointerType !== 'touch') moveNoButton();
+      });
+
+      noButton.addEventListener('pointerdown', (event) => {
+        event.preventDefault();
+        moveNoButton();
+      });
+
+      noButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        moveNoButton();
+      });
+
+      function celebrate() {
+        success.classList.add('show');
+        success.setAttribute('aria-hidden', 'false');
+        const colors = ['#e96e8d', '#f7a6b8', '#ffd08a', '#ef8e72', '#ffffff'];
+
+        for (let i = 0; i < 70; i += 1) {
+          const piece = document.createElement('i');
+          piece.className = 'confetti';
+          piece.style.left = `${Math.random() * 100}vw`;
+          piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+          piece.style.setProperty('--drift', `${Math.random() * 180 - 90}px`);
+          piece.style.setProperty('--fall-time', `${2.2 + Math.random() * 1.8}s`);
+          piece.style.animationDelay = `${Math.random() * .45}s`;
+          document.body.appendChild(piece);
+          setTimeout(() => piece.remove(), 4500);
+        }
+      }
+
+      yesButton.addEventListener('click', celebrate);
+    </script>
+  </body>
+</html>
