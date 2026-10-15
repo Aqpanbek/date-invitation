@@ -209,6 +209,27 @@
       .success h2 { margin: 0; font: 500 clamp(37px, 10vw, 50px)/1 Georgia, serif; letter-spacing: -.03em; }
       .success p { margin: 16px auto 0; max-width: 280px; color: var(--muted); line-height: 1.55; }
 
+      .options { display: grid; gap: 12px; margin: 26px auto 0; max-width: 300px; }
+
+      .option {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        width: 100%;
+        padding: 15px 18px;
+        text-align: left;
+        color: var(--ink);
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: inset 0 0 0 1px rgba(233, 110, 141, 0.22), 0 10px 24px rgba(117, 65, 80, 0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .option:hover { transform: translateY(-2px); box-shadow: inset 0 0 0 1.5px var(--rose), 0 14px 28px rgba(218, 79, 114, 0.18); }
+      .option:active { transform: translateY(1px) scale(.99); }
+      .option-icon { font-size: 30px; line-height: 1; }
+      .option strong, .option small { display: block; }
+      .option small { margin-top: 2px; color: var(--muted); font-size: 12px; font-weight: 500; }
+
       .confetti {
         position: fixed;
         z-index: 20;
@@ -258,10 +279,10 @@
       <h1>Пойдёшь со мной<br />на свидание?</h1>
       <p class="question">Хочу провести этот вечер с тобой. Обещаю тёплую атмосферу, улыбки и немного волшебства ✨</p>
 
-      <div class="date-pill" aria-label="23 сентября 2026 года в 21:00">
-        <div><strong>23 сентября</strong><span>среда</span></div>
+      <div class="date-pill" aria-label="16 октября 2026 года в 21:30">
+        <div><strong>16 октября</strong><span>пятница</span></div>
         <div class="divider" aria-hidden="true"></div>
-        <div><strong>21:00</strong><span>наш вечер</span></div>
+        <div><strong>21:30</strong><span>наш вечер</span></div>
       </div>
 
       <div class="actions" id="actions">
@@ -270,11 +291,28 @@
       </div>
       <p class="hint">Кажется, здесь есть только один правильный ответ :)</p>
 
+      <section class="success" id="choice" aria-live="polite" aria-hidden="true">
+        <div class="success-content">
+          <span class="emoji" aria-hidden="true">🤔</span>
+          <h2>Какое свидание<br />ты предпочитаешь?</h2>
+          <div class="options">
+            <button class="option" type="button" data-choice="идём в стрелковый клуб 🎯">
+              <span class="option-icon" aria-hidden="true">🎯</span>
+              <span><strong>Стрелковый клуб</strong><small>азарт и меткость</small></span>
+            </button>
+            <button class="option" type="button" data-choice="идём на гончарный мастер-класс 🏺">
+              <span class="option-icon" aria-hidden="true">🏺</span>
+              <span><strong>Гончарное дело</strong><small>глина и уют</small></span>
+            </button>
+          </div>
+        </div>
+      </section>
+
       <section class="success" id="success" aria-live="polite" aria-hidden="true">
         <div class="success-content">
           <span class="emoji" aria-hidden="true">🥰</span>
           <h2>Это будет<br />особенный вечер!</h2>
-          <p>Тогда договорились: 23 сентября в 21:00. Уже жду нашей встречи 💞</p>
+          <p>Тогда договорились: 16 октября в 21:30, <span id="choiceText">идём вместе</span>. Уже жду нашей встречи 💞</p>
         </div>
       </section>
     </main>
@@ -284,7 +322,14 @@
       const yesButton = document.querySelector('#yesBtn');
       const actions = document.querySelector('#actions');
       const success = document.querySelector('#success');
+      const choice = document.querySelector('#choice');
+      const choiceText = document.querySelector('#choiceText');
       let escapes = 0;
+
+      function show(section) {
+        section.classList.add('show');
+        section.setAttribute('aria-hidden', 'false');
+      }
 
       function moveNoButton() {
         const area = actions.getBoundingClientRect();
@@ -316,9 +361,11 @@
         moveNoButton();
       });
 
-      function celebrate() {
-        success.classList.add('show');
-        success.setAttribute('aria-hidden', 'false');
+      function celebrate(picked) {
+        choiceText.textContent = picked;
+        choice.classList.remove('show');
+        choice.setAttribute('aria-hidden', 'true');
+        show(success);
         const colors = ['#e96e8d', '#f7a6b8', '#ffd08a', '#ef8e72', '#ffffff'];
 
         for (let i = 0; i < 70; i += 1) {
@@ -334,7 +381,11 @@
         }
       }
 
-      yesButton.addEventListener('click', celebrate);
+      yesButton.addEventListener('click', () => show(choice));
+
+      document.querySelectorAll('.option').forEach((option) => {
+        option.addEventListener('click', () => celebrate(option.dataset.choice));
+      });
     </script>
   </body>
 </html>
