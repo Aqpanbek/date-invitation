@@ -147,12 +147,8 @@
 
       .btn:active { transform: scale(.98); }
 
-      #yesBtn {
-        z-index: 3;
-        color: var(--paper);
-        background: var(--ink);
-        transition: left .25s cubic-bezier(.2,.8,.2,1), top .25s cubic-bezier(.2,.8,.2,1), transform .15s ease;
-      }
+      #yesBtn { color: var(--paper); background: var(--ink); }
+      #yesBtn:hover { background: #000; }
 
       #noBtn {
         color: var(--ink);
@@ -161,9 +157,6 @@
       }
 
       #noBtn:hover { box-shadow: inset 0 0 0 1.5px var(--ink); }
-
-      #yesBtn.loose { position: absolute; width: calc(50% - 5px); }
-      .actions:has(.loose) #noBtn { grid-column: 1 / -1; }
 
       .hint {
         margin: 14px 0 0;
@@ -255,41 +248,8 @@
     </main>
 
     <script>
-      const yesButton = document.querySelector('#yesBtn');
       const noButton = document.querySelector('#noBtn');
-      const actions = document.querySelector('#actions');
       const declined = document.querySelector('#declined');
-      const yesLabels = ['Да', 'Мимо', 'Почти', 'Не-а', 'Лови'];
-      let escapes = 0;
-
-      function moveYesButton() {
-        yesButton.classList.add('loose');
-        const area = actions.getBoundingClientRect();
-        const button = yesButton.getBoundingClientRect();
-        const x = Math.random() * (area.width - button.width);
-        const y = 64 + Math.random() * 40;
-
-        actions.style.minHeight = '158px';
-        yesButton.style.left = `${x}px`;
-        yesButton.style.top = `${y}px`;
-        yesButton.style.transform = `rotate(${(Math.random() * 8 - 4).toFixed(1)}deg)`;
-        escapes += 1;
-        yesButton.textContent = yesLabels[Math.min(escapes, yesLabels.length - 1)];
-      }
-
-      yesButton.addEventListener('pointerenter', (event) => {
-        if (event.pointerType !== 'touch') moveYesButton();
-      });
-
-      yesButton.addEventListener('pointerdown', (event) => {
-        event.preventDefault();
-        moveYesButton();
-      });
-
-      yesButton.addEventListener('click', (event) => {
-        event.preventDefault();
-        moveYesButton();
-      });
 
       noButton.addEventListener('click', () => {
         declined.classList.add('show');
