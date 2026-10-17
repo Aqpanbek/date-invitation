@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#efebe3" />
-    <meta name="description" content="Приглашение на пятницу, 16 октября" />
-    <title>Пятница, 21:30</title>
+    <meta name="description" content="Приглашение на воскресенье, 18 октября" />
+    <title>Воскресенье, 21:30</title>
     <style>
       :root {
         color-scheme: light;
@@ -147,19 +147,23 @@
 
       .btn:active { transform: scale(.98); }
 
-      #yesBtn { color: var(--paper); background: var(--ink); }
-      #yesBtn:hover { background: #000; }
-
-      #noBtn {
+      #yesBtn {
         z-index: 3;
-        color: var(--ink);
-        background: transparent;
-        box-shadow: inset 0 0 0 1.5px var(--line);
+        color: var(--paper);
+        background: var(--ink);
         transition: left .25s cubic-bezier(.2,.8,.2,1), top .25s cubic-bezier(.2,.8,.2,1), transform .15s ease;
       }
 
-      #noBtn.loose { position: absolute; width: calc(50% - 5px); }
-      .actions:has(.loose) #yesBtn { grid-column: 1 / -1; }
+      #noBtn {
+        color: var(--ink);
+        background: transparent;
+        box-shadow: inset 0 0 0 1.5px var(--line);
+      }
+
+      #noBtn:hover { box-shadow: inset 0 0 0 1.5px var(--ink); }
+
+      #yesBtn.loose { position: absolute; width: calc(50% - 5px); }
+      .actions:has(.loose) #noBtn { grid-column: 1 / -1; }
 
       .hint {
         margin: 14px 0 0;
@@ -188,40 +192,6 @@
       .step.show { opacity: 1; visibility: visible; transform: none; }
 
       .step h2 { font-size: clamp(32px, 9vw, 40px); line-height: 1.05; }
-
-      .options { display: grid; gap: 10px; margin-top: 26px; }
-
-      .option {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: 14px;
-        align-items: start;
-        width: 100%;
-        padding: 16px;
-        text-align: left;
-        color: var(--ink);
-        background: transparent;
-        border-radius: 12px;
-        box-shadow: inset 0 0 0 1.5px var(--line);
-        transition: box-shadow .15s ease, transform .15s ease;
-      }
-
-      .option:hover { box-shadow: inset 0 0 0 1.5px var(--ink); }
-      .option:active { transform: scale(.99); }
-
-      .option .tag {
-        width: 30px;
-        height: 30px;
-        display: grid;
-        place-items: center;
-        border-radius: 8px;
-        color: var(--paper);
-        background: var(--ink);
-        font: 600 13px/1 var(--mono);
-      }
-
-      .option strong { display: block; font-size: 17px; }
-      .option span span { display: block; margin-top: 3px; color: var(--muted); font-size: 14px; line-height: 1.4; }
 
       .done-text { margin: 16px 0 0; color: var(--muted); font-size: 16px; line-height: 1.55; }
       .done-text b { color: var(--ink); font-weight: 600; }
@@ -252,17 +222,17 @@
   <body>
     <main class="ticket">
       <section class="top">
-        <p class="meta"><span>Приглашение</span><b>№ 001</b></p>
-        <h1>Свободна<br />в пятницу <em>вечером?</em></h1>
+        <p class="meta"><span>Приглашение</span><b>№ 002</b></p>
+        <h1>Свободна<br />в воскресенье <em>вечером?</em></h1>
         <p class="lead">План уже есть. Не хватает только тебя.</p>
       </section>
 
       <div class="perf" aria-hidden="true"></div>
 
       <dl class="details">
-        <div><dt>Дата</dt><dd>16.10<small>пятница</small></dd></div>
+        <div><dt>Дата</dt><dd>18.10<small>воскресенье</small></dd></div>
         <div><dt>Время</dt><dd>21:30<small>строго</small></dd></div>
-        <div><dt>Формат</dt><dd>?<small>твой выбор</small></dd></div>
+        <div><dt>Формат</dt><dd>?<small>сюрприз</small></dd></div>
       </dl>
 
       <section class="bottom">
@@ -270,90 +240,60 @@
           <button class="btn" id="yesBtn" type="button">Да</button>
           <button class="btn" id="noBtn" type="button">Нет</button>
         </div>
-        <p class="hint">кнопка «нет» сегодня не в настроении</p>
+        <p class="hint">кнопка «да» сегодня не в настроении</p>
       </section>
 
-      <section class="step" id="choice" aria-live="polite" aria-hidden="true">
-        <p class="meta"><span>Шаг 2 из 2</span><b>16.10 · 21:30</b></p>
-        <h2>Отлично.<br />Куда идём?</h2>
-        <div class="options">
-          <button class="option" type="button" data-choice="Стрелковый клуб">
-            <span class="tag" aria-hidden="true">A</span>
-            <span><strong>Стрелковый клуб</strong><span>Выясним, кто из нас метче</span></span>
-          </button>
-          <button class="option" type="button" data-choice="Гончарное дело">
-            <span class="tag" aria-hidden="true">B</span>
-            <span><strong>Гончарное дело</strong><span>Слепим что-то кривое, зато своё</span></span>
-          </button>
-        </div>
-      </section>
-
-      <section class="step" id="done" aria-live="polite" aria-hidden="true">
-        <span class="stamp">Подтверждено</span>
-        <h2>Договорились.</h2>
+      <section class="step" id="declined" aria-live="polite" aria-hidden="true">
+        <span class="stamp">Отклонено</span>
+        <h2>Ладно.</h2>
         <p class="done-text">
-          <b>Пятница, 16 октября, 21:30.</b><br />
-          <b id="choiceText">—</b>.<br />
-          Остальные детали скину лично.
+          <b>Грустнооооо.</b><br />
+          Хорошо.<br />
+          Ушёл в деп.
         </p>
       </section>
     </main>
 
     <script>
-      const noButton = document.querySelector('#noBtn');
       const yesButton = document.querySelector('#yesBtn');
+      const noButton = document.querySelector('#noBtn');
       const actions = document.querySelector('#actions');
-      const choice = document.querySelector('#choice');
-      const done = document.querySelector('#done');
-      const choiceText = document.querySelector('#choiceText');
-      const noLabels = ['Нет', 'Уверена?', 'Мимо', 'Не-а', 'Сдавайся'];
+      const declined = document.querySelector('#declined');
+      const yesLabels = ['Да', 'Мимо', 'Почти', 'Не-а', 'Лови'];
       let escapes = 0;
 
-      function moveNoButton() {
-        noButton.classList.add('loose');
+      function moveYesButton() {
+        yesButton.classList.add('loose');
         const area = actions.getBoundingClientRect();
-        const button = noButton.getBoundingClientRect();
+        const button = yesButton.getBoundingClientRect();
         const x = Math.random() * (area.width - button.width);
         const y = 64 + Math.random() * 40;
 
         actions.style.minHeight = '158px';
-        noButton.style.left = `${x}px`;
-        noButton.style.top = `${y}px`;
-        noButton.style.transform = `rotate(${(Math.random() * 8 - 4).toFixed(1)}deg)`;
+        yesButton.style.left = `${x}px`;
+        yesButton.style.top = `${y}px`;
+        yesButton.style.transform = `rotate(${(Math.random() * 8 - 4).toFixed(1)}deg)`;
         escapes += 1;
-        noButton.textContent = noLabels[Math.min(escapes, noLabels.length - 1)];
+        yesButton.textContent = yesLabels[Math.min(escapes, yesLabels.length - 1)];
       }
 
-      noButton.addEventListener('pointerenter', (event) => {
-        if (event.pointerType !== 'touch') moveNoButton();
+      yesButton.addEventListener('pointerenter', (event) => {
+        if (event.pointerType !== 'touch') moveYesButton();
       });
 
-      noButton.addEventListener('pointerdown', (event) => {
+      yesButton.addEventListener('pointerdown', (event) => {
         event.preventDefault();
-        moveNoButton();
+        moveYesButton();
       });
 
-      noButton.addEventListener('click', (event) => {
+      yesButton.addEventListener('click', (event) => {
         event.preventDefault();
-        moveNoButton();
+        moveYesButton();
       });
 
-      function show(step) {
-        document.querySelectorAll('.step.show').forEach((open) => {
-          open.classList.remove('show');
-          open.setAttribute('aria-hidden', 'true');
-        });
-        step.classList.add('show');
-        step.setAttribute('aria-hidden', 'false');
-      }
-
-      yesButton.addEventListener('click', () => show(choice));
-
-      document.querySelectorAll('.option').forEach((option) => {
-        option.addEventListener('click', () => {
-          choiceText.textContent = option.dataset.choice;
-          show(done);
-        });
+      noButton.addEventListener('click', () => {
+        declined.classList.add('show');
+        declined.setAttribute('aria-hidden', 'false');
       });
     </script>
   </body>
