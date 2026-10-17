@@ -15,6 +15,7 @@
         --muted: #77716a;
         --line: #d9d3c7;
         --accent: #e0492b;
+        --yes: #2f8f5b;
         --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
         --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
         --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
@@ -158,13 +159,6 @@
 
       #noBtn:hover { box-shadow: inset 0 0 0 1.5px var(--ink); }
 
-      .hint {
-        margin: 14px 0 0;
-        color: var(--muted);
-        font: 400 11px/1.4 var(--mono);
-        text-align: center;
-      }
-
       /* шаги поверх билета */
       .step {
         position: absolute;
@@ -202,10 +196,24 @@
         transform: rotate(-6deg);
       }
 
+      .stamp.yes { border-color: var(--yes); color: var(--yes); }
+
       .step.show .stamp { animation: stamp .45s cubic-bezier(.3,1.6,.5,1) .15s both; }
+
+      .confetti {
+        position: fixed;
+        z-index: 20;
+        top: -16px;
+        width: 8px;
+        height: 14px;
+        border-radius: 2px;
+        pointer-events: none;
+        animation: fall var(--fall-time) linear forwards;
+      }
 
       @keyframes rise { from { opacity: 0; transform: translateY(14px); } }
       @keyframes stamp { from { opacity: 0; transform: rotate(-6deg) scale(1.8); } }
+      @keyframes fall { to { transform: translate3d(var(--drift), 110vh, 0) rotate(720deg); } }
 
       @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
@@ -233,7 +241,16 @@
           <button class="btn" id="yesBtn" type="button">Да</button>
           <button class="btn" id="noBtn" type="button">Нет</button>
         </div>
-        <p class="hint">кнопка «да» сегодня не в настроении</p>
+      </section>
+
+      <section class="step" id="accepted" aria-live="polite" aria-hidden="true">
+        <span class="stamp yes">Подтверждено</span>
+        <h2>Ура!</h2>
+        <p class="done-text">
+          <b>Воскресенье, 18 октября, 21:30.</b><br />
+          Лучший ответ за неделю.<br />
+          Детали скину лично.
+        </p>
       </section>
 
       <section class="step" id="declined" aria-live="polite" aria-hidden="true">
@@ -248,13 +265,38 @@
     </main>
 
     <script>
+      const yesButton = document.querySelector('#yesBtn');
       const noButton = document.querySelector('#noBtn');
+      const accepted = document.querySelector('#accepted');
       const declined = document.querySelector('#declined');
 
-      noButton.addEventListener('click', () => {
-        declined.classList.add('show');
-        declined.setAttribute('aria-hidden', 'false');
+      function show(step) {
+        step.classList.add('show');
+        step.setAttribute('aria-hidden', 'false');
+      }
+
+      function confetti() {
+        const colors = ['#e0492b', '#1c1a17', '#f2b134', '#2f8f5b', '#d9d3c7'];
+
+        for (let i = 0; i < 80; i += 1) {
+          const piece = document.createElement('i');
+          piece.className = 'confetti';
+          piece.style.left = `${Math.random() * 100}vw`;
+          piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+          piece.style.setProperty('--drift', `${Math.random() * 160 - 80}px`);
+          piece.style.setProperty('--fall-time', `${2 + Math.random() * 1.8}s`);
+          piece.style.animationDelay = `${Math.random() * .4}s`;
+          document.body.appendChild(piece);
+          setTimeout(() => piece.remove(), 4500);
+        }
+      }
+
+      yesButton.addEventListener('click', () => {
+        show(accepted);
+        confetti();
       });
+
+      noButton.addEventListener('click', () => show(declined));
     </script>
   </body>
 </html>
